@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Dashboard</h1>
+  <form method="post" class="grid">
+    <label>Keywords
+      <input name="keywords" value="{{ state.keywords }}">
+    </label>
+    <label>Discount %
+      <input type="number" name="discount_percent" min="1" max="90" value="{{ state.discount_percent }}">
+    </label>
+    <label>Min sold count
+      <input type="number" name="min_sold_count" min="3" max="200" value="{{ state.min_sold_count }}">
+    </label>
+    <label>Sold sample size
+      <input type="number" name="sold_fetch" min="10" max="200" value="{{ state.sold_fetch }}">
+    </label>
+    <label>Active listings to fetch
+      <input type="number" name="active_fetch" min="10" max="200" value="{{ state.active_fetch }}">
+    </label>
+    <label>Global ID
+      <select name="global_id">
+        {% for gid in ["EBAY-GB","EBAY-US","EBAY-DE","EBAY-AU","EBAY-IE","EBAY-CA"] %}
+          <option value="{{ gid }}" {% if state.global_id==gid %}selected{% endif %}>{{ gid }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Currency
+      <select name="currency">
+        {% for cur in ["GBP","USD","EUR","AUD","CAD"] %}
+          <option value="{{ cur }}" {% if state.currency==cur %}selected{% endif %}>{{ cur }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Category ID
+      <input name="category_id" value="{{ state.category_id }}">
+    </label>
+    <label class="row">Exclude terms (comma-separated)
+      <input name="exclude_terms" value="{{ state.exclude_terms }}">
+    </label>
+    <div class="row">
+      <button class="btn">Search</button>
+    </div>
+  </form>
+
+  {% if results %}
+    <div class="note">
+      {% if results.note %}<p><strong>Note:</strong> {{ results.note }}</p>{% endif %}
+      <div class="stats">
+        <div class="stat">Sold items: <strong>{{ results.sold_count or 0 }}</strong></div>
+        <div class="stat">Average sold: <strong>{% if results.avg_price %}£{{ results.avg_price }}{% else %}-{% endif %}</strong></div>
+        <div class="stat">Threshold: <strong>{% if results.threshold %}£{{ results.threshold }}{% else %}-{% endif %}</strong></div>
+        <div class="stat">Matches: <strong>{{ results.hits|length }}</strong></div>
+      </div>
+    </div>
+    <div class="cards">
+      {% for h in results.hits %}
+        <div class="card">
+          <div class="price">£{{ "%.2f"|format(h.price) }}</div>
+          <div class="title">{{ h.title }}</div>
+          <div><a href="{{ h.url }}" target="_blank" rel="noopener">Open on eBay ↗</a></div>
+        </div>
+      {% endfor %}
+      {% if results.hits|length == 0 %}
+        <p class="muted">No listings under threshold right now. Try broader keywords or lower min sold count.</p>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}

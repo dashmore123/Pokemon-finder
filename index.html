@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Pokémon eBay Bargain Finder</h1>
+  <p>Find active eBay listings priced below a smart average of recent sold items. Adjust keywords, discount %, and filters.</p>
+  <div class="cta">
+    <a class="btn" href="/pricing">Get Access</a>
+    {% if session.get('uid') %}
+    <a class="btn secondary" href="/dashboard">Open Dashboard</a>
+    {% endif %}
+  </div>
+{% endblock %}

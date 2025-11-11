@@ -1,0 +1,6 @@
+{% if get_flashed_messages() %}
+  {% for m in get_flashed_messages(with_categories=true) %}
+    {% set cat, msg = m[0], m[1] %}
+    <div class="alert {{cat}}">{{ msg }}</div>
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ title if title else "Bargain Finder" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">Bargain Finder</a>
+      <nav>
+        <a href="/pricing">Pricing</a>
+        {% if session.get('uid') %}
+          <a href="/dashboard">Dashboard</a>
+          <a href="/logout">Logout</a>
+        {% else %}
+          <a href="/pricing">Get Access</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    {% include "partials/messages.html" %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="foot wrap">
+    © {{ 2025 }} Bargain Finder
+  </footer>
+</body>
+</html>

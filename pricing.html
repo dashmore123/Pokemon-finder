@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Pricing</h1>
+  <p>Access the dashboard and API. Cancel anytime.</p>
+  <ul>
+    <li>✔ Live searches against eBay</li>
+    <li>✔ Custom keywords & filters</li>
+    <li>✔ API access with key</li>
+  </ul>
+  <form action="/create-checkout" method="post">
+    <button class="btn">Subscribe</button>
+  </form>
+{% endblock %}
